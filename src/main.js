@@ -3,8 +3,8 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
-import MuseUI from 'muse-ui'
-import 'muse-ui/dist/muse-ui.css'
+// import MuseUI from 'muse-ui'
+// import 'muse-ui/dist/muse-ui.css'
 import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min'
@@ -14,6 +14,7 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText } from '@fortawesome/vue-fontawesome'
 import $ from 'jquery'
+import modalAlert from  '@/components/ModalAlert'
 
 
 library.add(fas, far, fab)
@@ -21,10 +22,11 @@ library.add(fas, far, fab)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('font-awesome-layers', FontAwesomeLayers)
 Vue.component('font-awesome-layers-text', FontAwesomeLayersText)
-
-Vue.use(MuseUI)
+Vue.component('v-dialog',modalAlert);
+// Vue.use(MuseUI)
 Vue.config.productionTip = false
 Vue.prototype.$ajax = axios
+Vue.prototype.$modal=modalAlert;
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

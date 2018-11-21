@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="quick f_r">
-          <router-link :to="{path:'register',query:{type:'register'}}" tag="div" class="content" style="display: inline;">  <a href="java:void(0)" class="btn btn-login">注册</a></router-link>
+          <router-link :to="{path:'register',query:{type:'register'}}" tag="div" class="content" style="display: inline;">  <a href="javascript:void(0)" class="btn btn-login">注册</a></router-link>
           <router-link :to="{path:'register',query:{type:'login'}}" tag="div" class="content" style="display: inline;">  <button type="button" class="btn btn-login waves-effect waves-light">登录</button></router-link>
         </div>
       </nav>
@@ -61,7 +61,7 @@
                      data-value="d3" class="item ">下周</a>
                   <a href="/eventlist?category=&amp;day=30&amp;city=%E5%8C%97%E4%BA%AC&amp;orderBy=latest"
                      class="item">本月</a>
-                  <a href="java:void(0)" class="item " id="datetimepicker2">指定日期</a>
+                  <a href="javascript:void(0)" class="item " id="datetimepicker2">指定日期</a>
                   <input type="hidden" class="input event_field_time_input" id="startTime" name="startTime"
                          value="" data-date-format="yyyy-mm-dd">
                 </div>
@@ -70,17 +70,17 @@
                 <div class="label1">城市</div>
                 <div class="items">
                   <input type="hidden" value="" id="selectCity">
-                  <a href="java:void(0)" data-value="" class="item active"
-                     id="eventLocation">全国</a>
-                    <a href="java:void(0)" class="item"  v-for="(addr,index) in address" @click="cxtjClick" v-bind:value="addr.areId">{{addr.cityName}}</a>
+                  <a href="javascript:void(0)" data-value="" class="item active"
+                     id="eventLocation" @click="cxtjClick">全国</a>
+                    <a href="javascript:void(0)" class="item"  v-for="(addr,index) in address" @click="cxtjClick" v-bind:value="addr.areId">{{addr.cityName}}</a>
                 </div>
               </div>
               <div class="li" id="category">
                 <div class="label1">技术类别</div>
                 <div class="items">
-                  <a href="java:void(0)"
-                     data-value="" class="item  active" value="">全部</a>
-                  <a href="java:void(0)" class="item"  v-for="(category,index) in categorys" @click="cxtjClick" v-bind:value="category.cfId">{{category.categoryName}}</a>
+                  <a href="javascript:void(0)"
+                     data-value="" class="item  active" value="" @click="cxtjClick">全部</a>
+                  <a href="javascript:void(0)" class="item"  v-for="(category,index) in categorys" @click="cxtjClick" v-bind:value="category.cfId">{{category.categoryName}}</a>
                 </div>
               </div>
             </div>
@@ -118,10 +118,11 @@
             </div>
           </div>
           <div class="row" id="mettings_all">
+            <div v-if="!meetings" class="card col-sm-3">数据暂无</div>
             <div class="card col-sm-3" v-for="(meeting,index) in meetings">
-             <a href="java:void(0);"> <img class="card-img-top" :src="meeting.logoUrl" alt="Card image cap"></a>
+             <a href="javascript:void(0);"> <img class="card-img-top" :src="meeting.logoUrl" alt="Card image cap"></a>
               <div class="card-block">
-                <a class="card-title meeting_title"  href="java:void(0)">{{meeting.title}}</a>
+                <a class="card-title meeting_title"  href="javascript:void(0)">{{meeting.title}}</a>
                 <p class="card-text">
                   <span style="display: block;font-size: 14px;"><font-awesome-icon icon="clock" size="xs" />  {{meeting.shareStartTime}}-{{meeting.shareEndTime}}</span>
                   <span style="font-size: 14px;"> <font-awesome-icon icon="map-marker-alt" size="xs" /> {{meeting.areaId.replace(" ","")}}</span>
@@ -144,12 +145,12 @@
                 <h6 class="card-subtitle">Accoubts Manager Amix corp</h6>
                 <div class="row text-center justify-content-md-center">
                   <div class="col-6">
-                    <a href="java:void(0)" class="link"><i class="icon-people"></i>
+                    <a href="javascript:void(0)" class="link"><i class="icon-people"></i>
                       <span class="font-medium">254</span>
                     </a>
                   </div>
                   <div class="col-6">
-                    <a href="java:void(0)" class="link"><i class="icon-picture"></i>
+                    <a href="javascript:void(0)" class="link"><i class="icon-picture"></i>
                       <span class="font-medium">54</span>
                     </a>
                   </div>
@@ -224,25 +225,25 @@
         </div>
       </div>
     </div>
-    <footer class="footer"><p>© 2018 IT峰汇 如上列表中有遗漏且您知道有相关技术峰会可<a href="java:void(0)">点此补全</a>
-    <br/><span>以上所有信息皆从网上搜集,如有侵权及即时与我们沟通,我们将立马撤掉相关信息<a href="java:void(0)">与我沟通</a></span></p>
-    </footer>
+    <footer class="footer"><p>© 2018 IT峰汇 如上列表中有遗漏且您知道有相关技术峰会可
+      <router-link :to="dcbq" tag="div" class="content" style="display: inline;">    <a href="javascript:void(0)">点此补全</a></router-link>
+    <br/><span>以上所有信息皆从网上搜集,如有侵权及即时与我们沟通,我们将立马撤掉相关信息
+         <router-link :to="ywgt" tag="div" class="content" style="display: inline;">    <a href="javascript:void(0)">与我沟通</a></router-link>
+      </span></p></footer>
   </div>
 
 </template>
 <!--< src="http://pv.sohu.com/cityjson?ie=utf-8"></>-->
-<>
-  // console.info(returnCitySN);
+<script>
   import {} from '../assets/js/custom'
   import {MP} from '../assets/js/importJsResources'
   export default {
     name: 'hello',
     data() {
       return {
-        msg: 'Welcome to Your Vue.js App',
-        addressApiurl: "http://10.8.30.19:9088/web/area/list",
-        categoryApiurl: "http://10.8.30.19:9088/web/category/list",
-        meetingApiurl:"http://10.8.30.19:9088/web/share/list",
+        addressApiurl: "http://10.8.30.33:7088/web/area/list",
+        categoryApiurl: "http://10.8.30.33:7088/web/category/list",
+        meetingApiurl:"http://10.8.30.33:7088/web/share/list",
         address:[],
         categorys:[],
         meetings:[],
@@ -250,7 +251,21 @@
           "pageSize": 20,
           "pageNum": 1
         },
-        currentAddressApiUrl:"http://pv.sohu.com/cityjson?ie=utf-8"
+        currentAddressApiUrl:"http://pv.sohu.com/cityjson?ie=utf-8",
+        dcbq:{
+          path:sessionStorage.getItem("currentUser")==null?"register":"clickComplete",
+          query:{
+           type:sessionStorage.getItem("currentUser")==null?"login":"",
+           callbackUrl:sessionStorage.getItem("currentUser")==null?"":"clickComplete"
+         }
+        },
+        ywgt:{
+          path:sessionStorage.getItem("currentUser")==null?"register":"Communicate",
+          query:{
+            type:sessionStorage.getItem("currentUser")==null?"login":"",
+            callbackUrl:sessionStorage.getItem("currentUser")==null?"":"Communicate"
+          }
+        }
       }
     },
     created: function () {
@@ -283,7 +298,6 @@
         let that = this;
         that.meetingParam["categoryId"]=$("#category").find(".active").attr("value");
         that.meetingParam["areaId"]=$("#area").find(".active").attr("value");
-        console.info(that.meetingParam);
         that.$ajax.get(that.meetingApiurl, {params: that.meetingParam}).then(function (res) {
           that.meetings=res.data.data;
         })
@@ -295,7 +309,7 @@
       }
     }
   }
-</>
+</script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped src="../assets/css/style.css"></style>
 <style scoped src="../assets/css/login.css"></style>
