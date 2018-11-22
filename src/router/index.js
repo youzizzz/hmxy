@@ -4,16 +4,18 @@ import HelloWorld from '@/components/HelloWorld'
 import Index from '@/components/Index'
 import Content from '@/components/Content'
 import register from '@/components/Register'
+import FeedBack from '@/components/FeedBack'
+
 Vue.use(Router)
 const router = new Router({
-  mode:'history',
+  mode: 'history',
   base: '/history',
   routes: [
     {
       path: '/',
       name: 'HelloWorld',
       component: HelloWorld,
-      meta:{
+      meta: {
         title: "IT峰汇-聚集最新业内峰汇资讯"
       }
     },
@@ -31,9 +33,14 @@ const router = new Router({
       path: '/register',
       name: 'Register',
       component: register,
-      meta:{
-        title:"登录注册"
+      meta: {
+        title: "登录注册"
       }
+    },
+    {
+      path: '/feedBack',
+      name: "FeedBack",
+      component: FeedBack
     }
   ]
 })
