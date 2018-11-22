@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="quick f_r">
-          <router-link :to="{path:'register',query:{type:'register'}}" tag="div" class="content" style="display: inline;">  <a href="javascript:void(0)" class="btn btn-login">注册</a></router-link>
+          <router-link :to="{path:'register',query:{type:'register'}}" tag="div" class="content" style="display: inline;">  <a href="java:void(0)" class="btn btn-login">注册</a></router-link>
           <router-link :to="{path:'register',query:{type:'login'}}" tag="div" class="content" style="display: inline;">  <button type="button" class="btn btn-login waves-effect waves-light">登录</button></router-link>
         </div>
       </nav>
