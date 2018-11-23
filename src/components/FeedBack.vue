@@ -50,21 +50,21 @@
           <div class="col-lg-9 col-xlg-9 col-md-8">
 
             <div class="feed-list">
-              <div class="feed-section">
+              <div class="feed-section" v-for="(message,index) in messageList">
                 <div class="avatar">
                   <img src="https://thirdqq.qlogo.cn/g?b=oidb&amp;k=dnlRXWUAZ1XHWGlFPA2Lpw&amp;s=100" class="img-circle"
                        width="42">
                 </div>
                 <div class="post-self">
                   <div class="post-header">
-                    <div class="create-time">今天 08:59</div>
+                    <div class="create-time">{{message.creatorDate}}</div>
                     <div class="creator">
-                      <div class="user-name">腻碍@</div>
+                      <div class="user-name">{{message.creatorBy}}</div>
                     </div>
                     <div class="post-flags"></div>
                   </div>
                   <div class="post-body">
-                    <div class="post-content">为什么主页模板的照片更换不了，一直保存失败</div>
+                    <div class="post-content">{{message.messageContent}}</div>
                   </div>
                   <div class="post-footer">
                     <div class="more-action">
@@ -75,29 +75,29 @@
                 </div>
               </div>
 
-              <div class="feed-section">
-                <div class="avatar">
-                  <img src="https://thirdqq.qlogo.cn/g?b=oidb&amp;k=dnlRXWUAZ1XHWGlFPA2Lpw&amp;s=100" class="img-circle"
-                       width="42">
-                </div>
-                <div class="post-self">
-                  <div class="post-header">
-                    <div class="create-time">今天 08:59</div>
-                    <div class="creator">
-                      <div class="user-name">腻碍@</div>
-                    </div>
-                    <div class="post-flags"></div>
-                  </div>
-                  <div class="post-body">
-                    <div class="post-content">为什么主页模板的照片更换不了，一直保存失败</div>
-                  </div>
-                  <div class="post-footer">
-                    <div class="more-action">
-                      <div class="del"><a href="#">删除</a></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <!--<div class="feed-section">-->
+              <!--<div class="avatar">-->
+              <!--<img src="https://thirdqq.qlogo.cn/g?b=oidb&amp;k=dnlRXWUAZ1XHWGlFPA2Lpw&amp;s=100" class="img-circle"-->
+              <!--width="42">-->
+              <!--</div>-->
+              <!--<div class="post-self">-->
+              <!--<div class="post-header">-->
+              <!--<div class="create-time">今天 08:59</div>-->
+              <!--<div class="creator">-->
+              <!--<div class="user-name">腻碍@</div>-->
+              <!--</div>-->
+              <!--<div class="post-flags"></div>-->
+              <!--</div>-->
+              <!--<div class="post-body">-->
+              <!--<div class="post-content">为什么主页模板的照片更换不了，一直保存失败</div>-->
+              <!--</div>-->
+              <!--<div class="post-footer">-->
+              <!--<div class="more-action">-->
+              <!--<div class="del"><a href="#">删除</a></div>-->
+              <!--</div>-->
+              <!--</div>-->
+              <!--</div>-->
+              <!--</div>-->
 
 
             </div>
@@ -152,7 +152,7 @@
 
 
     <div id="gotop">
-    <a class="gotop"></a>
+      <a class="gotop"></a>
     </div>
 
 
@@ -173,16 +173,31 @@
                 <div class="modal-body">
                   <section class="box-login v5-input-txt">
                     <!-- 点击增加 .text-focus -->
-                    <form class="feed-form text-focus" action="" method="post" autocomplete="off">
-                      <div>
-                        <textarea name="" placeholder="问题描述需大于5小于200字"></textarea>
+                    <form action="" method="post" autocomplete="off">
+                      <div class="form-group row">
+                        <label class="control-label text-right col-sm-2">类型</label>
+                        <div class="col-sm-8">
+                          <select class="form-control" name="messageType" id="messageType">
+                            <!--<option value="0">用户补全</option>-->
+                            <option value="">请选择</option>
+                            <option value="1">友链申请</option>
+                            <option value="2">反馈建议</option>
+                            <!--<option value="3">其余待定</option>-->
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="feed-form text-focus">
+                        <textarea name="messageContent" id="messageContent" placeholder="问题描述需大于5小于200字"></textarea>
                         <div class="additional">
                           <div class="tips">还可以输入 200 字</div>
                         </div>
                       </div>
                     </form>
                     <div class="login-box marginB10">
-                      <button type="button" class="btn btn-micv5 btn-block globalLogin">提交反馈</button>
+                      <button id="feedBack_btn" type="button" @click="userFeedback()"
+                              class="btn btn-micv5 btn-block globalLogin">提交反馈
+                      </button>
                     </div>
                   </section>
                 </div>
@@ -202,17 +217,79 @@
     name: "FeedBack",
     data() {
       return {
-        list: []
+        messageListUrl: "http://10.8.30.33:7088/web/message/listPage",
+        messageUrl: "http://10.8.30.33:7088/web/message/findMessageById",
+        feedbackUrl: "http://10.8.30.33:7088/web/message/userFeedback",
+        messageList: [],
+        page:1,
+        limit:10
       }
     },
     created() {
-      this.getData()
+        this.initPage();
+        this.windowScroll();
+        this.getData();
+        this.showMessageList();
     },
     methods: {
+      initPage() {
+        $(function () {
+          //模态框关闭事件
+          $("#feedBackModal").on('hidden.bs.modal', function () {
+            // $(this).removeData('bs.modal');
+            $("#messageType").val("");
+            $("#messageContent").val("");
+          });
+
+        });
+      },
+      windowScroll(){
+        let that = this;
+        //是否可以加载
+        let flag = true;
+        $(window).scroll(function () {
+          if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
+            if(flag){
+              flag = false;
+              that.$ajax.get(that.messageListUrl,{params:{"page":that.page,"limit":that.limit}}).then(function (res) {
+                $(res.data.data).each(function () {
+                  that.messageList.push(this);
+                })
+                flag = true;
+                that.page+=1;
+              });
+            }
+          }
+        });
+      },
       getData() {
         // this.$api.get('topics', null, r => {
         //   console.log(r)
         // })
+      },
+      showMessageList() {
+        let that = this;
+        that.$ajax.get(that.messageListUrl,{params:{"page":that.page,"limit":that.limit}}).then(function (res) {
+          that.messageList = res.data.data;
+          that.page+=1;
+        })
+      },
+      userFeedback() {
+        let that = this;
+        var params = new URLSearchParams();
+        params.append("messageType", $("#messageType").val());
+        params.append("messageContent", $("#messageContent").val());
+        $("#feedBack_btn").attr("disabled", true);
+        that.$ajax.post(that.feedbackUrl, params).then(function (res) {
+
+          if ("10000" == res.data.code) {
+            that.$ajax.get(that.messageUrl,{params:{"messageId":res.data.data}}).then(function (result) {
+              that.messageList.unshift(result.data.data);
+            })
+            $("#feedBackModal").modal("hide");
+            $("#feedBack_btn").attr("disabled", false);
+          }
+        })
       }
     }
   }
