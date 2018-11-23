@@ -221,6 +221,7 @@
         messageUrl: "http://10.8.30.33:7088/web/message/findMessageById",
         feedbackUrl: "http://10.8.30.33:7088/web/message/userFeedback",
         messageList: [],
+        currentTime: new Date().Format("yyyy-MM-dd HH:mm:ss"),
         page:1,
         limit:10
       }
@@ -251,12 +252,18 @@
           if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
             if(flag){
               flag = false;
-              that.$ajax.get(that.messageListUrl,{params:{"page":that.page,"limit":that.limit}}).then(function (res) {
+              that.$ajax.get(that.messageListUrl,{params:{"page":that.page,"limit":that.limit,"pointTime":that.currentTime}}).then(function (res) {
                 $(res.data.data).each(function () {
                   that.messageList.push(this);
                 })
-                flag = true;
-                that.page+=1;
+                var count = Number(res.data.count);
+                var pageNum = Number(res.data.pageNum);
+                var pageSize = Number(res.data.pageSize);
+                //如果当前不是最后一页可继续加载下面的数据
+                if(pageNum*pageSize<count){
+                  flag = true;
+                  that.page+=1;
+                }
               });
             }
           }
@@ -269,7 +276,7 @@
       },
       showMessageList() {
         let that = this;
-        that.$ajax.get(that.messageListUrl,{params:{"page":that.page,"limit":that.limit}}).then(function (res) {
+        that.$ajax.get(that.messageListUrl,{params:{"page":that.page,"limit":that.limit,"pointTime":that.currentTime}}).then(function (res) {
           that.messageList = res.data.data;
           that.page+=1;
         })
